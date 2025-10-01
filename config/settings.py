@@ -13,7 +13,6 @@ class ModelProvider(Enum):
 
 class Settings:
     # ========== API Keys ==========
-    WIND_API_KEY = os.getenv("WIND_API_KEY")
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     LANGSMITH_API_KEY = os.getenv("LANGSMITH_API_KEY")
 
@@ -28,7 +27,7 @@ class Settings:
 
     # ========== Paths ==========
     DATA_DIR = os.path.join(os.path.dirname(__file__), "../data")
-    VECTOR_DB_PATH = os.path.join(DATA_DIR, "vector_db/deepseek")  # 区分不同embedding模型
+    VECTOR_DB_PATH = os.path.join(DATA_DIR, "vector_db/chroma")  # 区分不同embedding模型
 
     # ========== RAG Parameters ==========
     RETRIEVE_TOP_K = 5  # 检索返回的文档数量
