@@ -1,10 +1,10 @@
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew, LLM
 from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
 import logging
 from crewai.tools import tool
 from datetime import datetime
-
+import os
 logger = logging.getLogger(__name__)
 
 
@@ -56,6 +56,12 @@ query_knowledge_base.max_usage_count = 10
 # 创建Agent和Crew（完全兼容Task类规范）
 # ----------------------------
 def setup_agents_and_crew() -> Crew:
+    LLM_DS = LLM(
+        model='openai/deepseek-chat',
+        base_url='https://api.deepseek.com/v1',
+        api_key=os.getenv("DEEPSEEK_API_KEY"),
+        stream=False,
+    )
     # 定义Agents（包含所有必填字段）
     research_agent = Agent(
         role="行业研究员",
@@ -66,7 +72,7 @@ def setup_agents_and_crew() -> Crew:
         allow_delegation=False,
         max_iter=15,
         max_rpm=10,
-        llm="deepseek",
+        llm=LLM_DS,
         allow_code_execution=False,
         respect_context_window=True
     )
@@ -79,7 +85,7 @@ def setup_agents_and_crew() -> Crew:
         verbose=True,
         max_iter=15,
         max_rpm=10,
-        llm="deepseek",
+        llm=LLM_DS,
         allow_code_execution=False
     )
 
